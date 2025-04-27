@@ -37,6 +37,12 @@ export async function onRequest(context) {
   // Check the hostname and modify the links
   let proxiedUrl;
   let watchUrl;
+  let workerProxyUrl;
+
+  proxiedUrl = `${url.origin}/download?data=${encodedData}`;
+  watchUrl = `${url.origin}/watch?data=${encodedData}`;
+  workerProxyUrl = `${url.origin}/WorkerProxy?data=${encodedData}`;
+  
   if (url.hostname === 'your-custom-domain.com') {
     proxiedUrl = `https://your-domain.ir.cdn.ir/download?data=${encodedData}`;
     watchUrl = `https://your-domain.ir.cdn.ir/watch?data=${encodedData}`;
@@ -63,6 +69,12 @@ export async function onRequest(context) {
         </style>
       </head>
       <body>
+        <div class="container">
+          <h1>Proxy</h1>
+          <p id="watchLink">${workerProxyUrl}</p>
+          <a href="${workerProxyUrl}" class="button watch-button">Proxy</a>
+        </div>
+        
         <div class="container">
           <h1>Watch</h1>
           <p id="watchLink">${watchUrl}</p>
