@@ -636,14 +636,14 @@
     return js.replace(/'(https?:\/\/[^']+)'/g, function(match, url) {
       if (url.startsWith(`https://${proxyDomain}/`)) return match
       try {
-        return `'https://${proxyDomain}/${url}'`
+        return `'https://${proxyDomain}/?url=${url}'`
       } catch (e) {
         return match
       }
     }).replace(/"(https?:\/\/[^"]+)"/g, function(match, url) {
       if (url.startsWith(`https://${proxyDomain}/`)) return match
       try {
-        return `"https://${proxyDomain}/${url}"`
+        return `"https://${proxyDomain}/?url=${url}"`
       } catch (e) {
         return match
       }
