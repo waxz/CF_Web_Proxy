@@ -151,7 +151,16 @@
   
     try {
       // Send request to target server
-      let response = await fetch(newRequest)
+      let response = await fetch(
+        newRequest,
+        {
+            method: request.method,
+            headers: newHeaders,
+            body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : null,
+            redirect: 'manual', // Handle redirects manually
+          }
+        
+        )
       
       // Handle redirects
       let newRespHeaders = new Headers(response.headers)
