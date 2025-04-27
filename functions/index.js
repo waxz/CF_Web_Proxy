@@ -163,7 +163,7 @@
             const redirectURL = new URL(location, targetURL)
             // Build new proxy URL, using current accessed domain
             const currentProxyDomain = url.host
-            const newLocation = `https://${currentProxyDomain}/${redirectURL.href}`
+            const newLocation = `https://${currentProxyDomain}/?url=${redirectURL.href}`
             newRespHeaders.set('Location', newLocation)
           } catch (error) {
             console.error('Redirect URL processing error:', error)
@@ -588,7 +588,7 @@
           }
           
           const absoluteURL = new URL(normalizedUrl, baseURL)
-          return match.replace(importUrl, `https://${proxyDomain}/${absoluteURL.href}`)
+          return match.replace(importUrl, `https://${proxyDomain}/?url=${absoluteURL.href}`)
         } catch (e) {
           return match
         }
