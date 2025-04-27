@@ -682,26 +682,31 @@
   // Basic JavaScript URL rewriting
   function rewriteJavaScript(js, baseURL, proxyDomain) {
     if (!js) return js;
+
+    var new_js =  js
+    // Match single-quoted URLs
+    .replace(/'(https?:\/\/[^']+)'/g, (match, url) => {
+      if (url.startsWith(`https://${proxyDomain}/`)) return match;
+      try {
+        return `'https://${proxyDomain}/?url=${encodeURIComponent(url)}'`;
+      } catch (e) {
+        return match;
+      }
+    })
+    // Match double-quoted URLs
+    .replace(/"(https?:\/\/[^"]+)"/g, (match, url) => {
+      if (url.startsWith(`https://${proxyDomain}/`)) return match;
+      try {
+        return `"https://${proxyDomain}/?url=${encodeURIComponent(url)}"`;
+      } catch (e) {
+        return match;
+      }
+    });
+    console.log("rewriteJavaScript");
+    console.log(`===old====\n ${js}`);
+    console.log(`===new====\n ${new_js}`);
   
-    return js
-      // Match single-quoted URLs
-      .replace(/'(https?:\/\/[^']+)'/g, (match, url) => {
-        if (url.startsWith(`https://${proxyDomain}/`)) return match;
-        try {
-          return `'https://${proxyDomain}/?url=${encodeURIComponent(url)}'`;
-        } catch (e) {
-          return match;
-        }
-      })
-      // Match double-quoted URLs
-      .replace(/"(https?:\/\/[^"]+)"/g, (match, url) => {
-        if (url.startsWith(`https://${proxyDomain}/`)) return match;
-        try {
-          return `"https://${proxyDomain}/?url=${encodeURIComponent(url)}"`;
-        } catch (e) {
-          return match;
-        }
-      });
+    return new_js;
   }
   
   // Inject fallback scripts in the head
