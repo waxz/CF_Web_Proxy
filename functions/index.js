@@ -593,7 +593,7 @@
           }
           
           const absoluteURL = new URL(normalizedUrl, baseURL)
-          return `url(${quote1}https://${proxyDomain}/${absoluteURL.href}${quote2})`
+          return `url(${quote1}https://${proxyDomain}/?url=${absoluteURL.href}${quote2})`
         } catch (e) {
           return match
         }
@@ -616,7 +616,7 @@
               }
               
               const absoluteURL = new URL(normalizedUrl, baseURL)
-              return `url(${quote1}https://${proxyDomain}/${absoluteURL.href}${quote2})`
+              return `url(${quote1}https://${proxyDomain}/?url=${absoluteURL.href}${quote2})`
             } catch (e) {
               return urlMatch
             }
@@ -835,7 +835,7 @@
         e.preventDefault();
         const url = document.getElementById('urlInput').value.trim();
         if (url) {
-          window.location.href = '/' + url;
+          window.location.href = '/?url=' + url;
         }
       }
       
