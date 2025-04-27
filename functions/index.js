@@ -304,6 +304,11 @@
           headers: newRespHeaders
         })
       }
+
+      newResponse.headers.set('Access-Control-Allow-Origin', '*');
+      newResponse.headers.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+      newResponse.headers.set('Access-Control-Allow-Headers', '*');
+    
       
       return newResponse
     } catch (error) {
