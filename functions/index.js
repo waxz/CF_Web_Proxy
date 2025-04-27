@@ -401,7 +401,7 @@
         this.baseURL = baseURL
         this.attributeName = attributeName
         this.proxyDomain = proxyDomain
-        console.log(`Incoming baseURL: ${baseURL}, attributeName: ${attributeName} `);
+        console.log(`ScriptHandler: Incoming baseURL: ${baseURL}, attributeName: ${attributeName} `);
       }
 
     element(element) {
@@ -420,7 +420,7 @@
       this.baseURL = baseURL
       this.attributeName = attributeName
       this.proxyDomain = proxyDomain
-      console.log(`Incoming baseURL: ${baseURL}, attributeName: ${attributeName} `);
+      console.log(`LinkRewriter: Incoming baseURL: ${baseURL}, attributeName: ${attributeName} `);
     }
     
     element(element) {
@@ -463,7 +463,7 @@
     constructor(baseURL, proxyDomain) {
       this.baseURL = baseURL
       this.proxyDomain = proxyDomain
-      console.log(`Incoming baseURL: ${baseURL}`);
+      console.log(`SrcsetRewriter: Incoming baseURL: ${baseURL}`);
 
     }
     
