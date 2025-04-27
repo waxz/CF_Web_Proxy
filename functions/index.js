@@ -360,6 +360,7 @@
       this.baseURL = baseURL
       this.attributeName = attributeName
       this.proxyDomain = proxyDomain
+      console.log(`Incoming baseURL: ${baseURL}, attributeName: ${attributeName} `);
     }
     
     element(element) {
@@ -402,6 +403,8 @@
     constructor(baseURL, proxyDomain) {
       this.baseURL = baseURL
       this.proxyDomain = proxyDomain
+      console.log(`Incoming baseURL: ${baseURL}`);
+
     }
     
     element(element) {
