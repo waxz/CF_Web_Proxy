@@ -161,7 +161,7 @@ export async function onRequest(context) {
           const redirectURL = new URL(location, targetURL)
           // Build new proxy URL, using current accessed domain
           const currentProxyDomain = url.host
-          const newLocation = `https://${currentProxyDomain}/${redirectURL.href}`
+          const newLocation = `https://${currentProxyDomain}/proxy?url=${redirectURL.href}`
           newRespHeaders.set('Location', newLocation)
         } catch (error) {
           console.error('Redirect URL processing error:', error)
@@ -565,7 +565,7 @@ function rewriteCSS(css, baseURL, proxyDomain) {
         }
         
         const absoluteURL = new URL(normalizedUrl, baseURL)
-        return match.replace(importUrl, `https://${proxyDomain}/${absoluteURL.href}`)
+        return match.replace(importUrl, `https://${proxyDomain}/proxy?url=${absoluteURL.href}`)
       } catch (e) {
         return match
       }
@@ -586,7 +586,7 @@ function rewriteCSS(css, baseURL, proxyDomain) {
         }
         
         const absoluteURL = new URL(normalizedUrl, baseURL)
-        return `url(${quote1}https://${proxyDomain}/${absoluteURL.href}${quote2})`
+        return `url(${quote1}https://${proxyDomain}/proxy?url=${absoluteURL.href}${quote2})`
       } catch (e) {
         return match
       }
@@ -609,7 +609,7 @@ function rewriteCSS(css, baseURL, proxyDomain) {
             }
             
             const absoluteURL = new URL(normalizedUrl, baseURL)
-            return `url(${quote1}https://${proxyDomain}/${absoluteURL.href}${quote2})`
+            return `url(${quote1}https://${proxyDomain}/proxy?url=${absoluteURL.href}${quote2})`
           } catch (e) {
             return urlMatch
           }
@@ -639,7 +639,7 @@ function rewriteJavaScript(js, baseURL, proxyDomain) {
   }).replace(/"(https?:\/\/[^"]+)"/g, function(match, url) {
     if (url.startsWith(`https://${proxyDomain}/`)) return match
     try {
-      return `"https://${proxyDomain}/${url}"`
+      return `"https://${proxyDomain}/proxy?url=${url}"`
     } catch (e) {
       return match
     }
