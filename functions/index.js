@@ -407,7 +407,7 @@
     element(element) {
         const attributeValue = element.getAttribute(this.attributeName);
         if (!attributeValue || attributeValue.startsWith('data:') || attributeValue.startsWith('javascript:')) return
-        console.log(`ScriptHandler:  attributeName: ${attributeName}, attributeValue: ${attributeValue} `);
+        console.log(`ScriptHandler:  attributeName: ${this.attributeName}, attributeValue: ${attributeValue} `);
 
         const newSrc = `https://${this.proxyDomain}/?url=${encodeURIComponent(attributeValue)}`;
         element.setAttribute('src', newSrc);
@@ -427,7 +427,7 @@
     element(element) {
       const attributeValue = element.getAttribute(this.attributeName);
       if (!attributeValue || attributeValue.startsWith('data:') || attributeValue.startsWith('javascript:')) return
-      console.log(`LinkRewriter:  attributeName: ${attributeName}, attributeValue: ${attributeValue} `);
+      console.log(`LinkRewriter:  attributeName: ${this.attributeName}, attributeValue: ${attributeValue} `);
 
       // Don't modify already proxied URLs
       if (attributeValue.startsWith(`https://${this.proxyDomain}/`)) return
