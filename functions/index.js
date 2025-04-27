@@ -646,27 +646,27 @@
   
   // Basic JavaScript URL rewriting
   function rewriteJavaScript(js, baseURL, proxyDomain) {
-    if (!js) return js
-    
-    // This is a very simplified approach and might not catch all cases
-    // A proper solution would require JS parsing, which is complex
-    
-    // Replace absolute URLs in common patterns
-    return js.replace(/'(https?:\/\/[^']+)'/g, function(match, url) {
-      if (url.startsWith(`https://${proxyDomain}/`)) return match
-      try {
-        return `'https://${proxyDomain}/?url=${url}'`
-      } catch (e) {
-        return match
-      }
-    }).replace(/"(https?:\/\/[^"]+)"/g, function(match, url) {
-      if (url.startsWith(`https://${proxyDomain}/`)) return match
-      try {
-        return `'https://${proxyDomain}/?url=${url}'`;//`"https://${proxyDomain}/?url=${url}"`
-      } catch (e) {
-        return match
-      }
-    })
+    if (!js) return js;
+  
+    return js
+      // Match single-quoted URLs
+      .replace(/'(https?:\/\/[^']+)'/g, (match, url) => {
+        if (url.startsWith(`https://${proxyDomain}/`)) return match;
+        try {
+          return `'https://${proxyDomain}/?url=${encodeURIComponent(url)}'`;
+        } catch (e) {
+          return match;
+        }
+      })
+      // Match double-quoted URLs
+      .replace(/"(https?:\/\/[^"]+)"/g, (match, url) => {
+        if (url.startsWith(`https://${proxyDomain}/`)) return match;
+        try {
+          return `"https://${proxyDomain}/?url=${encodeURIComponent(url)}"`;
+        } catch (e) {
+          return match;
+        }
+      });
   }
   
   // Inject fallback scripts in the head
