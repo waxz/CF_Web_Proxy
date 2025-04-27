@@ -42,9 +42,9 @@ export async function onRequest(context) {
   const isProxyHost = true; // config.proxyDomains.includes(url.host)
   
   // If homepage is enabled and this is a root path request, return homepage
-  if (config.homepage && url.pathname === '/' && isProxyHost) {
-    return getHomePage(url.host)
-  }
+  //if (config.homepage && url.pathname === '/' && isProxyHost) {
+  //  return getHomePage(url.host)
+  //}
 
   let targetURL
   
