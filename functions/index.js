@@ -24,7 +24,7 @@
       secFetchUser: '?1',
     },
     fallback: {
-      enabled: true,
+      enabled: false,
       autoReload: true,
     },
     specialSites: {
