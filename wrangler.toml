@@ -1,0 +1,6 @@
+
+name = "cf-web-proxy"
+
+[[r2_buckets]]
+binding = "DATA"
+bucket_name = "DATA"
