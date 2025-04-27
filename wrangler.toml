@@ -1,5 +1,6 @@
 
 name = "cf-web-proxy"
+compatibility_date = "2024-04-27"
 
 [[r2_buckets]]
 binding = "DATA"
