@@ -54,23 +54,23 @@
       // Determine target URL
       if (isProxyHost) {
         // Extract target URL from path
-        if (url.pathname === '/proxy' && url.searchParams.has('url')) {
+        if (url.searchParams.has('url')) {
           // Handle /proxy?url=https://example.com format
           const urlParam = url.searchParams.get('url')
-          targetURL = new URL(urlParam)
-        } else if (url.pathname.startsWith('/')) {
-          // Handle /https://example.com format
-          const path = url.pathname.substring(1)
-          if (path.startsWith('http://') || path.startsWith('https://')) {
-            targetURL = new URL(path)
-          } else if (path) { // Ensure path is not empty
-            // Handle relative path /example.com format, default to https
-            targetURL = new URL('https://' + path)
-          } else {
-            // Empty path but not root path, possibly an error
-            return new Response('Invalid URL request : ' + url.pathname, { status: 400 })
+          if (!urlParam) {
+            return new Response('URL parameter is missing', { status: 400 });
           }
-        }
+        
+          if (!/^https?:\/\//i.test(urlParam)) {
+            urlParam = 'http://' + urlParam;
+          }
+
+          targetURL = new URL(urlParam)
+        } else {
+           return getHomePage(url.host)
+            // Empty path but not root path, possibly an error
+            // return new Response('Invalid URL request : ' + url.pathname, { status: 400 })
+          }
       } else {
         // Use request URL directly
         targetURL = url
@@ -386,7 +386,7 @@
         }
         
         // Rewrite as proxy URL, using current accessed domain
-        const newURL = `https://${this.proxyDomain}/${absoluteURL.href}`
+        const newURL = `https://${this.proxyDomain}/?url=${absoluteURL.href}`
         element.setAttribute(this.attributeName, newURL)
       } catch (e) {
         // If URL is invalid, keep it as is
@@ -431,7 +431,7 @@
             const absoluteURL = new URL(normalizedUrl, this.baseURL)
             
             // Create new proxied URL
-            const newURL = `https://${this.proxyDomain}/${absoluteURL.href}`
+            const newURL = `https://${this.proxyDomain}/?url=${absoluteURL.href}`
             
             // Return new URL with size if exists
             return size ? `${newURL} ${size}` : newURL
@@ -465,7 +465,7 @@
         if (parts.length === 2) {
           try {
             const url = new URL(parts[1], this.baseURL)
-            const newURL = `https://${this.proxyDomain}/${url.href}`
+            const newURL = `https://${this.proxyDomain}/?url=${url.href}`
             element.setAttribute('content', `${parts[0]};url=${newURL}`)
           } catch (e) {
             console.error(`Meta refresh URL rewrite error:`, e)
@@ -481,7 +481,7 @@
           property.includes('twitter:image'))) {
         try {
           const url = new URL(content, this.baseURL)
-          const newURL = `https://${this.proxyDomain}/${url.href}`
+          const newURL = `https://${this.proxyDomain}/?url=${url.href}`
           element.setAttribute('content', newURL)
         } catch (e) {
           console.error(`Meta tag URL rewrite error:`, e)
@@ -502,7 +502,7 @@
       if (href) {
         try {
           const url = new URL(href, this.baseURL)
-          const newURL = `https://${this.proxyDomain}/${url.href}`
+          const newURL = `https://${this.proxyDomain}/?url=${url.href}`
           element.setAttribute('href', newURL)
         } catch (e) {
           console.error(`Base tag URL rewrite error:`, e)
