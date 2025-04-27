@@ -131,7 +131,7 @@
     // Essential headers for the target site
     newHeaders.set('Host', targetURL.host)
     newHeaders.set('Origin', targetURL.origin)
-    newHeaders.set('Referer', targetURL.href)
+    newHeaders.set('Referer', targetURL.host)
     
     // Check if this is XHR/fetch request from the browser
     const isXHR = request.headers.get('X-Requested-With') === 'XMLHttpRequest' || 
@@ -152,8 +152,7 @@
     try {
       // Send request to target server
       let response = await fetch(
-        newRequest,
-        {
+        newRequest, {
             method: request.method,
             headers: newHeaders,
             body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : null,
