@@ -239,6 +239,8 @@
         // Inject scripts for fallback mechanism if enabled
         if (config.fallback.enabled && config.fallback.autoReload) {
           rewriter = rewriter.on('head', new HeadRewriter(targetURL.href))
+          rewriter = rewriter.on('body', new HeadRewriter(targetURL.href))
+
         }
         
         newResponse = rewriter.transform(newResponse)
