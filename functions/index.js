@@ -56,7 +56,7 @@
         // Extract target URL from path
         if (url.searchParams.has('url')) {
           // Handle /proxy?url=https://example.com format
-          const urlParam = url.searchParams.get('url')
+          var urlParam = url.searchParams.get('url')
           if (!urlParam) {
             return new Response('URL parameter is missing', { status: 400 });
           }
