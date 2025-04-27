@@ -212,7 +212,7 @@
           .on('img[srcset]', new SrcsetRewriter(targetURL, currentProxyDomain))
           .on('source[srcset]', new SrcsetRewriter(targetURL, currentProxyDomain))
           .on('link[href]', new LinkRewriter(targetURL, 'href', currentProxyDomain))
-          .on('script[src]', new LinkRewriter(targetURL, 'src', currentProxyDomain))
+          .on('script[src]', new ScriptHandler(targetURL, 'src', currentProxyDomain))
           .on('iframe[src]', new LinkRewriter(targetURL, 'src', currentProxyDomain))
           .on('source[src]', new LinkRewriter(targetURL, 'src', currentProxyDomain))
           .on('video[src]', new LinkRewriter(targetURL, 'src', currentProxyDomain))
@@ -354,6 +354,24 @@
     }
   }
   
+  class ScriptHandler {
+    constructor(baseURL, attributeName, proxyDomain) {
+        this.baseURL = baseURL
+        this.attributeName = attributeName
+        this.proxyDomain = proxyDomain
+        console.log(`Incoming baseURL: ${baseURL}, attributeName: ${attributeName} `);
+      }
+
+    element(element) {
+        const attributeValue = element.getAttribute(this.attributeName)
+        if (!attributeValue || attributeValue.startsWith('data:') || attributeValue.startsWith('javascript:')) return
+      
+        const newSrc = `https://${this.proxyDomain}/?url=${encodeURIComponent(attributeValue)}`;
+        element.setAttribute('src', newSrc);
+    }
+  }
+
+
   // Unified link rewrite handling with better URL handling
   class LinkRewriter {
     constructor(baseURL, attributeName, proxyDomain) {
