@@ -166,6 +166,10 @@
     newHeaders.set('Host', targetURL.host)
     newHeaders.set('Origin', targetURL.origin)
     newHeaders.set('Referer', targetURL.host)
+    console.log(`newHeaders.set('Host', ${targetURL.host})`);
+    console.log(`newHeaders.set('Origin', ${targetURL.origin})`);
+    console.log(`newHeaders.set('Referer', ${targetURL.host})`);
+    console.log(`targetURL: ${targetURL}`);
     
     // Check if this is XHR/fetch request from the browser
     const isXHR = request.headers.get('X-Requested-With') === 'XMLHttpRequest' || 
