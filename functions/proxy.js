@@ -201,7 +201,7 @@ export async function onRequest(context) {
     // Rewrite links in HTML content
     if (contentType.includes('text/html') || contentType.includes('application/xhtml+xml')) {
       // Use current accessed domain as proxy domain
-      const currentProxyDomain = url.host + "/proxy"
+      const currentProxyDomain = url.host + "/proxy?url="
       
       let rewriter = new HTMLRewriter()
         .on('a[href]', new LinkRewriter(targetURL, 'href', currentProxyDomain))
