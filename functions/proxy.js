@@ -41,7 +41,7 @@ export async function onRequest(context) {
 
   proxiedUrl = `${url.origin}/download?data=${encodedData}`;
   watchUrl = `${url.origin}/watch?data=${encodedData}`;
-  workerProxyUrl = `${url.origin}/WorkerProxy?data=${encodedData}`;
+  workerProxyUrl = `${url.origin}/WorkerProxy?url=${originalUrl}`;
   
   if (url.hostname === 'your-custom-domain.com') {
     proxiedUrl = `https://your-domain.ir.cdn.ir/download?data=${encodedData}`;
