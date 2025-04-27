@@ -406,7 +406,7 @@
 
     element(element) {
         const attributeValue = element.getAttribute(this.attributeName);
-        if (attributeValue) console.log(`ScriptHandler:  attributeName: ${attributeName}, attributeValue: ${attributeValue} `);
+        // if (attributeValue) console.log(`ScriptHandler:  attributeName: ${attributeName}, attributeValue: ${attributeValue} `);
 
         if (!attributeValue || attributeValue.startsWith('data:') || attributeValue.startsWith('javascript:')) return
       
@@ -427,7 +427,7 @@
     
     element(element) {
       const attributeValue = element.getAttribute(this.attributeName);
-      if (attributeValue) console.log(`LinkRewriter:  attributeName: ${attributeName}, attributeValue: ${attributeValue} `);
+    //   if (attributeValue) console.log(`LinkRewriter:  attributeName: ${attributeName}, attributeValue: ${attributeValue} `);
 
       if (!attributeValue || attributeValue.startsWith('data:') || attributeValue.startsWith('javascript:')) return
       
@@ -473,7 +473,7 @@
     
     element(element) {
       const srcset = element.getAttribute('srcset');
-      if (srcset) console.log(`SrcsetRewriter:  srcset: ${srcset}`);
+    //   if (srcset) console.log(`SrcsetRewriter:  srcset: ${srcset}`);
 
       if (!srcset) return
       
