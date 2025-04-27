@@ -44,9 +44,9 @@
     const isProxyHost = true; // config.proxyDomains.includes(url.host)
     
     // If homepage is enabled and this is a root path request, return homepage
-    if (config.homepage && url.pathname === '/' && isProxyHost) {
-      return getHomePage(url.host)
-    }
+    // if (config.homepage && url.pathname === '/' && isProxyHost) {
+    //   return getHomePage(url.host)
+    // }
   
     let targetURL
     
@@ -810,11 +810,7 @@
       
       <p class="example">
       Examples: 
-      <a href="https://${host}/https://www.tsukuba.ac.jp/">tsukuba.ac.jp</a>, 
-      <a href="https://${host}/https://www.jlu.edu.cn/">jlu.edu.cn</a>, 
-      <a href="https://${host}/https://news.ycombinator.com">ycombinator.com</a>, 
-      <a href="https://github.com/BH3GEI/CloudflareWorkerProxy">Github Repo BH3GEI/CloudflareWorkerProxy</a>
-      <a href="https://github.com/waxz/CloudflareWorkerProxy">Github Repo waxz/CloudflareWorkerProxy</a>
+      <a href="https://${host}/?url=https://www.bbc.com/">bbc.com</a>
   
   </p>
   
