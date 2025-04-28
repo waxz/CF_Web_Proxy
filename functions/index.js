@@ -36,6 +36,11 @@
   }
   
   export async function fetch_cache(request, ctx) {
+      // Only cache GET requests
+    if (request.method !== 'GET') {
+      return fetch(request);
+    }
+
     const cacheUrl = new URL(request.url);
 
     // Construct the cache key from the cache URL
@@ -101,7 +106,7 @@
 
           targetURL = new URL(urlParam)
         } else {
-           return getHomePage(url.host)
+           return await getHomePage(context, url.host)
             // Empty path but not root path, possibly an error
             // return new Response('Invalid URL request : ' + url.pathname, { status: 400 })
           }
@@ -202,7 +207,7 @@
             const redirectURL = new URL(location, targetURL)
             // Build new proxy URL, using current accessed domain
             const currentProxyDomain = url.host
-            const newLocation = `https://${currentProxyDomain}/?url=${redirectURL.href}`
+            const newLocation = `https://${currentProxyDomain}/?url=${encodeURIComponent(redirectURL.href)}`
             newRespHeaders.set('Location', newLocation)
           } catch (error) {
             console.error('Redirect URL processing error:', error)
@@ -451,7 +456,7 @@
         }
         
         // Rewrite as proxy URL, using current accessed domain
-        const newURL = `https://${this.proxyDomain}/?url=${absoluteURL.href}`
+        const newURL = `https://${this.proxyDomain}/?url=${encodeURIComponent(absoluteURL.href)}`
         element.setAttribute(this.attributeName, newURL)
       } catch (e) {
         // If URL is invalid, keep it as is
@@ -499,7 +504,7 @@
             const absoluteURL = new URL(normalizedUrl, this.baseURL)
             
             // Create new proxied URL
-            const newURL = `https://${this.proxyDomain}/?url=${absoluteURL.href}`
+            const newURL = `https://${this.proxyDomain}/?url=${encodeURIComponent(absoluteURL.href)}`
             
             // Return new URL with size if exists
             return size ? `${newURL} ${size}` : newURL
@@ -533,7 +538,7 @@
         if (parts.length === 2) {
           try {
             const url = new URL(parts[1], this.baseURL)
-            const newURL = `https://${this.proxyDomain}/?url=${url.href}`
+            const newURL = `https://${this.proxyDomain}/?url=${encodeURIComponent(url.href)}`
             element.setAttribute('content', `${parts[0]};url=${newURL}`)
           } catch (e) {
             console.error(`Meta refresh URL rewrite error:`, e)
@@ -549,7 +554,7 @@
           property.includes('twitter:image'))) {
         try {
           const url = new URL(content, this.baseURL)
-          const newURL = `https://${this.proxyDomain}/?url=${url.href}`
+          const newURL = `https://${this.proxyDomain}/?url=${encodeURIComponent(url.href)}`
           element.setAttribute('content', newURL)
         } catch (e) {
           console.error(`Meta tag URL rewrite error:`, e)
@@ -570,7 +575,7 @@
       if (href) {
         try {
           const url = new URL(href, this.baseURL)
-          const newURL = `https://${this.proxyDomain}/?url=${url.href}`
+          const newURL = `https://${this.proxyDomain}/?url=${encodeURIComponent(url.href)}`
           element.setAttribute('href', newURL)
         } catch (e) {
           console.error(`Base tag URL rewrite error:`, e)
@@ -635,7 +640,7 @@
           }
           
           const absoluteURL = new URL(normalizedUrl, baseURL)
-          return match.replace(importUrl, `https://${proxyDomain}/?url=${absoluteURL.href}`)
+          return match.replace(importUrl, `https://${proxyDomain}/?url=${encodeURIComponent(absoluteURL.href)}`)
         } catch (e) {
           return match
         }
@@ -656,7 +661,7 @@
           }
           
           const absoluteURL = new URL(normalizedUrl, baseURL)
-          return `url(${quote1}https://${proxyDomain}/?url=${absoluteURL.href}${quote2})`
+          return `url(${quote1}https://${proxyDomain}/?url=${encodeURIComponent(absoluteURL.href)}${quote2})`
         } catch (e) {
           return match
         }
@@ -679,7 +684,7 @@
               }
               
               const absoluteURL = new URL(normalizedUrl, baseURL)
-              return `url(${quote1}https://${proxyDomain}/?url=${absoluteURL.href}${quote2})`
+              return `url(${quote1}https://${proxyDomain}/?url=${encodeURIComponent(absoluteURL.href)}${quote2})`
             } catch (e) {
               return urlMatch
             }
@@ -787,7 +792,20 @@
     }
   }
   
-  function getHomePage(host) {
+  async function getHomePage(context, host) {
+
+      // Create a prepared statement with our query
+      const get_hosts = context.env.DB.prepare("SELECT * from HOSTS");
+      const get_articals = context.env.DB.prepare("SELECT * from ARTICALS");
+
+      const get_hosts_first = await get_hosts.first();
+      if(get_hosts_first){
+        console.log(get_hosts_first);
+        console.log(get_hosts_first.URL);
+      }
+
+
+
     return new Response(`<!DOCTYPE html>
   <html lang="en">
   <head>
