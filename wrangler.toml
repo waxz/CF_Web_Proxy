@@ -1,7 +1,14 @@
 
 name = "cf-web-proxy"
 compatibility_date = "2024-04-27"
+pages_build_output_dir = "./public"
 
-[[r2_buckets]]
-binding = "DATA"
-bucket_name = "DATA"
+
+
+[[d1_databases]]
+
+binding = "DB"
+
+database_name = "d1-example"
+
+database_id = "a648975e-5c61-4e67-8e25-5fc9bbbb86d6"
